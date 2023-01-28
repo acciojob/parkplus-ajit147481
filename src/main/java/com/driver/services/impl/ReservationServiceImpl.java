@@ -34,7 +34,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<Spot> spotList=parkingLot.getSpotList();
 
         if(user==null || parkingLot==null){
-            return null;
+            throw new Exception("Cannot make reservation");
         }
         Spot newSpot=null;
 
@@ -59,7 +59,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         if(newSpot==null){
-            return null;
+            throw new Exception("Cannot make reservation");
         }
 
         reservation.setSpot(newSpot);
