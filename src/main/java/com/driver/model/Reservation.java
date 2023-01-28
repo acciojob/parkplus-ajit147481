@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private int numberOfHours;
     @ManyToOne
@@ -14,7 +14,7 @@ public class Reservation {
     @ManyToOne
     @JoinColumn
     private Spot spot;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
     private Payment payment;
     public Reservation(){
 

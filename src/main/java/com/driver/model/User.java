@@ -3,19 +3,19 @@ package com.driver.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private String phoneNumber;
     private String password;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
-    private List<Reservation> reservationList;
+    private List<Reservation> reservationList=new ArrayList<>();
 
     public User(){
 

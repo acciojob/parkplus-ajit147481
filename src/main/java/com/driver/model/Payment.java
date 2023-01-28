@@ -5,22 +5,23 @@ import javax.persistence.*;
 @Entity
 public class Payment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(columnDefinition = "TINYINT(1)")
     private boolean paymentCompleted;
+    @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode;
     @OneToOne
     @JoinColumn
     private Reservation reservation;
     public Payment(){
-     paymentCompleted=false;
+
     }
     public void setId(int id) {
         this.id = id;
     }
 
     public void setPaymentCompleted(PaymentMode paymentMode,Reservation reservation) {
-        this.paymentCompleted = false;
         this.paymentMode=paymentMode;
         this.reservation=reservation;
     }

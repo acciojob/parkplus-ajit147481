@@ -3,18 +3,18 @@ package com.driver.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class ParkingLot {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private String address;
-    @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("spot")
-    private List<Spot> spotList;
+    @OneToMany(mappedBy = "parkingLot",cascade = CascadeType.ALL)
+    private List<Spot> spotList=new ArrayList<>();
     public ParkingLot(){
 
     }
@@ -22,7 +22,6 @@ public class ParkingLot {
     public ParkingLot(String name,String address){
         this.name=name;
         this.address=address;
-        this.spotList=spotList;
     }
 
     public void setId(int id) {
