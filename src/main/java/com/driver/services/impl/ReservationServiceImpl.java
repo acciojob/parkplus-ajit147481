@@ -53,6 +53,7 @@ public class ReservationServiceImpl implements ReservationService {
             if(newSpot==null ||
                     ( !spot.isOccupied() && spot.getSpotType().equals(spotType)
                             && spot.getPricePerHour()<price )){
+                price=spot.getPricePerHour();
                 newSpot=spot;
             }
         }
