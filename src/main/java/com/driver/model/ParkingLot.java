@@ -19,7 +19,7 @@ public class ParkingLot {
 
     }
 
-    public ParkingLot(String name,String address,List<Spot> spotList){
+    public ParkingLot(String name,String address){
         this.name=name;
         this.address=address;
         this.spotList=spotList;
