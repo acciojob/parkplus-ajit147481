@@ -17,32 +17,35 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
 
-        Reservation reservation=reservationRepository2.findById(reservationId).get();
-        Spot spot=reservation.getSpot();
-        int price_per_hour= spot.getPricePerHour();
-        User user=reservation.getUser();
 
-        int total=spot.getPricePerHour()*reservation.getNumberOfHours();
+            Reservation reservation=reservationRepository2.findById(reservationId).get();
+            Spot spot=reservation.getSpot();
 
-        Payment payment=new Payment();
+            int bill=reservation.getNumberOfHours()*spot.getPricePerHour();
+            if(amountSent<bill){
+                throw new Exception("Insufficient Amount");
+            }
+            if(mode.equalsIgnoreCase("cash") || mode.equalsIgnoreCase("card")||
+                    mode.equalsIgnoreCase("upi")){
+                Payment payment=new Payment();
+                if(mode.equalsIgnoreCase("cash")){
+                    payment.setPaymentMode(PaymentMode.CASH);
+                }
+                if(mode.equalsIgnoreCase("card")){
+                    payment.setPaymentMode(PaymentMode.CARD);
+                }
+                if(mode.equalsIgnoreCase("upi")){
+                    payment.setPaymentMode(PaymentMode.UPI);
+                }
+                payment.setPaymentCompleted(true);
+                payment.setReservation(reservation);
 
-        if(amountSent<total){
-            throw new Exception("Insufficient Amount");
-        }
-        if(!mode.equals("CASH") || !mode.equals("CARD") || !mode.equals("UPI")){
-            throw new Exception("Payment mode not detected");
-        }
+                reservation.setPayment(payment);
 
-        payment.setPaymentCompleted(true);
-        payment.setPaymentMode(PaymentMode.valueOf(mode));
-        spot.setOccupied(false);
-        payment.setReservation(reservation);
-        paymentRepository2.save(payment);
-
-        reservation.setSpot(spot);
-        reservation.setPayment(payment);
-        reservationRepository2.save(reservation);
-
-        return payment;
+                reservationRepository2.save(reservation);
+                return payment;
+            }else {
+                throw new Exception("Payment mode not detected");
+            }
     }
 }
