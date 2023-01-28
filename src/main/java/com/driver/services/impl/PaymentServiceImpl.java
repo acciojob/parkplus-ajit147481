@@ -17,6 +17,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
+        if(mode !=PaymentMode.CASH.name() || mode !=PaymentMode.CARD.name()||mode !=PaymentMode.UPI.name()){
+            throw new Exception("Payment mode not detected");
+        }
 
     }
 }

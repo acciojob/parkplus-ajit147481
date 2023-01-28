@@ -9,6 +9,7 @@ import com.driver.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.Integer;
 import java.util.List;
 
 @Service
@@ -23,6 +24,58 @@ public class ReservationServiceImpl implements ReservationService {
     ParkingLotRepository parkingLotRepository3;
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
+        Reservation reservation=new Reservation();
+        reservation.setNumberOfHours(timeInHours);
 
+        User user=userRepository3.findById(userId).get();
+        List<Reservation> reservationList=user.getReservationList();
+
+        ParkingLot parkingLot=parkingLotRepository3.findById(parkingLotId).get();
+        List<Spot> spotList=parkingLot.getSpotList();
+
+        if(user==null || parkingLot==null){
+            throw new Exception("Cannot make reservation");
+        }
+        Spot newSpot=null;
+
+        SpotType spotType=null;
+        if(numberOfWheels==2){
+            spotType=SpotType.TWO_WHEELER;
+        } else if (numberOfWheels==4) {
+            spotType=SpotType.FOUR_WHEELER;
+        }else{
+            spotType=SpotType.OTHERS;
+        }
+
+        int price=Integer.MAX_VALUE;
+
+        for(Spot spot:spotList){
+            if(newSpot==null ||
+                    ( !spot.isOccupied() && spot.getSpotType().equals(spotType)
+                            && spot.getPricePerHour()<price )){
+                newSpot=spot;
+            }
+        }
+
+        if(newSpot==null){
+            throw new Exception("Cannot make reservation");
+        }
+
+        reservation.setSpot(newSpot);
+        reservation.setNumberOfHours(numberOfWheels);
+        reservationList.add(reservation);
+        reservationRepository3.save(reservation);
+
+        newSpot.setOccupied(true);
+        spotList.add(newSpot);
+        spotRepository3.save(newSpot);
+
+        parkingLot.setSpotList(spotList);
+        parkingLotRepository3.save(parkingLot);
+
+        user.setReservationList(reservationList);
+        userRepository3.save(user);
+
+        return reservation;
     }
 }
