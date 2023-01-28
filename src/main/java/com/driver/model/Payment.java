@@ -12,7 +12,9 @@ public class Payment {
     @OneToOne
     @JoinColumn
     private Reservation reservation;
-
+    public Payment(){
+     paymentCompleted=false;
+    }
     public void setId(int id) {
         this.id = id;
     }

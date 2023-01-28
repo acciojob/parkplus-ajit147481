@@ -18,7 +18,15 @@ public class Spot {
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("spot")
     private List<Reservation> reservationList;
-
+    public Spot(){
+        this.occupied=false;
+    }
+    public Spot(SpotType spotType,int pricePerHour,ParkingLot parkingLot){
+        this.pricePerHour=pricePerHour;
+        this.spotType=spotType;
+        this.parkingLot=parkingLot;
+        this.occupied=false;
+    }
     public int getId() {
         return id;
     }

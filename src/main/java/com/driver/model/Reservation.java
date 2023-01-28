@@ -16,7 +16,12 @@ public class Reservation {
     private Spot spot;
     @OneToOne(cascade = CascadeType.ALL)
     private Payment payment;
+    public Reservation(){
 
+    }
+    public Reservation(int numberOfHours){
+        this.numberOfHours=numberOfHours;
+    }
     public int getId() {
         return id;
     }

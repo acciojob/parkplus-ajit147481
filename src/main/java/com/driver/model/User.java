@@ -17,9 +17,18 @@ public class User {
     @JsonIgnoreProperties("user")
     private List<Reservation> reservationList;
 
+    public User(){
+
+    }
+    public User(String name,String phoneNumber,String password){
+        this.name=name;
+        this.phoneNumber=phoneNumber;
+        this.password=password;
+    }
     public List<Reservation> getReservationList() {
         return reservationList;
     }
+
 
     public int getId() {
         return id;

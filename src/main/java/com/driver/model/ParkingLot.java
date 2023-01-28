@@ -15,6 +15,13 @@ public class ParkingLot {
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("spot")
     private List<Spot> spotList;
+    public ParkingLot(){
+
+    }
+    public ParkingLot(String name,String address){
+        this.name=name;
+        this.address=address;
+    }
 
     public void setId(int id) {
         this.id = id;
