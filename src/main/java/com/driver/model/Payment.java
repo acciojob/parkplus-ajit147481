@@ -19,8 +19,10 @@ public class Payment {
         this.id = id;
     }
 
-    public void setPaymentCompleted(boolean paymentCompleted) {
-        this.paymentCompleted = paymentCompleted;
+    public void setPaymentCompleted(PaymentMode paymentMode,Reservation reservation) {
+        this.paymentCompleted = false;
+        this.paymentMode=paymentMode;
+        this.reservation=reservation;
     }
 
     public void setPaymentMode(PaymentMode paymentMode) {
@@ -45,5 +47,9 @@ public class Payment {
 
     public boolean isPaymentCompleted() {
         return paymentCompleted;
+    }
+
+    public void setPaymentCompleted(boolean paymentCompleted) {
+        this.paymentCompleted = paymentCompleted;
     }
 }
